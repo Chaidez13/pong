@@ -1,6 +1,14 @@
 let bg;
 let ball;
 let players = [];
+let bgSound;
+let kickSound;
+
+function preload() {
+  soundFormats('wav');
+  bgSound = loadSound('/src/assets/sounds/musicloop');
+  kickSound = loadSound('/src/assets/sounds/kick');
+}
 
 function setup() {
   bg = loadImage("/src/assets/sprites/board.png");
@@ -22,8 +30,10 @@ function setup() {
       BOARD.width / 2 - BALL.side / 2,
       BOARD.height / 2 - BALL.side / 2
     ),
-    players
+    kickSound
   );
+  
+  bgSound.loop();
   createCanvas(BOARD.width, BOARD.height);
 }
 
