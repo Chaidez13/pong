@@ -1,13 +1,13 @@
-const board = {
+const BOARD = {
     width: 1024,
     height: 512,
 }
 
-const paddle = {
+const PADDLE = {
     width: 37,
     height: 128.6,
 }
 
-const ballConstants = {
+const BALL = {
     side: 67,
 }

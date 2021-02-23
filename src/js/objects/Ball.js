@@ -4,8 +4,8 @@ class Ball {
     this.x = coords.x;
     this.y = coords.y;
     //Dimensiones
-    this.width = ballConstants.side;
-    this.height = ballConstants.side;
+    this.width = BALL.side;
+    this.height = BALL.side;
     //Imagen
     this.img = loadImage("/src/assets/sprites/ball.png");
     //Velocidades
@@ -17,20 +17,13 @@ class Ball {
     return Math.round(Math.random()) ? 1 : -1;
   }
 
-  // ============
   changeXAxis(){
-    console.log("Switch")
     this.speedX *= -1;
   }
-  // ============
 
   move() {
-    if (this.x <= 0 || this.x >= board.width - this.width) {
-      this.speedX *= -1;
-    }
-    if (this.y <= 0 || this.y >= board.height - this.height) {
-      this.speedY *= -1;
-    }
+    if (this.x <= 0 || this.x >= BOARD.width - this.width) this.speedX *= -1;
+    if (this.y <= 0 || this.y >= BOARD.height - this.height) this.speedY *= -1;
     this.x += this.speedX;
     this.y += this.speedY;
   }
@@ -43,10 +36,6 @@ class Ball {
 
 const BallFactory = {
   coords: (x, y) => {
-    return {
-      x,
-      y,
-    };
+    return {x, y};
   },
 };
-

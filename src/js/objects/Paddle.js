@@ -4,8 +4,8 @@ class Paddle {
     this.x = coords.x;
     this.y = coords.y;
     //Dimensiones
-    this.width = paddle.width;
-    this.height = paddle.height;
+    this.width = PADDLE.width;
+    this.height = PADDLE.height;
     //Imagen
     this.img = loadImage("/src/assets/sprites/paddle.png");
     //Velocidades
@@ -19,7 +19,7 @@ class Paddle {
   }
 
   moveDown() {
-    if (this.y <= board.height - this.height) this.y += this.speed;
+    if (this.y <= BOARD.height - this.height) this.y += this.speed;
   }
 
   move() {
@@ -38,10 +38,7 @@ class Paddle {
 
 const PaddleFactory = {
   coords: (x, y) => {
-    return {
-      x,
-      y,
-    };
+    return {x, y};
   },
   controllSettings: (moveUpKey, moveDownKey) => {
     return [
