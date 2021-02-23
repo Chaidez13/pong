@@ -11,19 +11,29 @@ class Ball {
     //Velocidades
     this.speedX = 5 * this.multiplierDirection();
     this.speedY = 5 * this.multiplierDirection();
+    //Auxiliares
+    this.bounce = true;
   }
 
   multiplierDirection() {
     return Math.round(Math.random()) ? 1 : -1;
   }
 
-  changeXAxis(){
-    this.speedX *= -1;
+  changeXAxis() {
+    if (
+      this.x > 0 &&
+      this.x < BOARD.width &&
+      this.bounce
+    ){
+      this.speedX *= -1;
+      this.bounce = false;
+    }
   }
 
   move() {
     if (this.x <= 0 || this.x >= BOARD.width - this.width) this.speedX *= -1;
     if (this.y <= 0 || this.y >= BOARD.height - this.height) this.speedY *= -1;
+    if (this.x < BOARD.width/2 + 10 && this.x > BOARD.width/2 - 10) this.bounce = true;
     this.x += this.speedX;
     this.y += this.speedY;
   }
@@ -36,6 +46,6 @@ class Ball {
 
 const BallFactory = {
   coords: (x, y) => {
-    return {x, y};
+    return { x, y };
   },
 };
