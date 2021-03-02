@@ -3,11 +3,13 @@ let ball;
 let players = [];
 let bgSound;
 let kickSound;
+let pointSound;
 
 function preload() {
-  soundFormats('wav');
-  bgSound = loadSound('/src/assets/sounds/musicloop');
-  kickSound = loadSound('/src/assets/sounds/kick');
+  soundFormats("wav");
+  bgSound = loadSound("/src/assets/sounds/musicloop");
+  kickSound = loadSound("/src/assets/sounds/kick");
+  pointSound = loadSound("/src/assets/sounds/point");
 }
 
 function setup() {
@@ -30,9 +32,10 @@ function setup() {
       BOARD.width / 2 - BALL.side / 2,
       BOARD.height / 2 - BALL.side / 2
     ),
+    players,
     kickSound
   );
-  
+
   bgSound.loop();
   createCanvas(BOARD.width, BOARD.height);
 }
@@ -40,9 +43,5 @@ function setup() {
 function draw() {
   background(bg);
   ball.draw();
-  players.forEach((player) => {
-    player.draw();
-    if (collition(ball, player)) ball.changeXAxis();
-  });
+  players.forEach((player) => player.draw());
 }
-
