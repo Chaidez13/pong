@@ -30,9 +30,19 @@ class Ball {
 
   hitPlayer() {
     players.forEach((player) => {
-      if (player.hb.squareWasHitCircle(ball.hb) && this.bounce) {
+      var hit = player.hb.squareWasHitCircle(ball.hb);
+      if (hit !== 0 && this.bounce) {
+        switch (hit) {
+          case 1:
+            this.speedX++;
+            if (this.speedY > 4) this.speedY--;
+            break;
+          case 2:
+            this.speedY++;
+            if (this.speedX > 4) this.speedX--;
+            break;
+        }
         this.speedX *= -1;
-        this.bounce = false;
         kickSound.play();
       }
     });

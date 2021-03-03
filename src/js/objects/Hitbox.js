@@ -20,19 +20,28 @@ class Hitbox {
   }
   //HitBoxCircle
   squareWasHitCircle(hbc) {
-    var testX = hbc.x, testY = hbc.y;
+    var testX = hbc.x,
+      testY = hbc.y;
 
-    if(hbc.x < this.x) testX = this.x;
+    if (hbc.x < this.x) testX = this.x;
     else if (hbc.x > this.x + this.width) testX = this.x + this.width;
-    if(hbc.y < this.y) testY = this.y;
+    if (hbc.y < this.y) testY = this.y;
     else if (hbc.y > this.y + this.height) testY = this.y + this.height;
 
-    var distX = hbc.x-testX;
-    var distY = hbc.y-testY;
-    var distance = Math.sqrt((distX*distX)+(distY*distY))
+    var distX = hbc.x - testX;
+    var distY = hbc.y - testY;
+    var distance = Math.sqrt(distX * distX + distY * distY);
 
-    //testY es donde colisiona la bola 
-    return (distance <= hbc.diameter/2)
+    //testY es donde colisiona la bola
+    if (distance <= hbc.diameter / 2) {
+      var hitPlace = this.y + this.height - testY;
+      if (hitPlace < 22) return 1;
+      if (hitPlace < 44) return 2;
+      if (hitPlace < 66) return 3;
+      if (hitPlace < 88) return 2;
+      return 1;
+    }
+    return 0;
   }
 
   draw() {
