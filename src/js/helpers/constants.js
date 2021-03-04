@@ -14,3 +14,8 @@ const BALL = {
     side: 67,
     hitboxSide: 41,
 }
+
+const PLAYERS = {
+    player1: 'p1',
+    player2: 'p2',
+}

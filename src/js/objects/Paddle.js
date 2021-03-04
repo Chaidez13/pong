@@ -1,5 +1,5 @@
 class Paddle {
-  constructor(coords, controllSettings) {
+  constructor(coords, controllSettings, player) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -17,6 +17,8 @@ class Paddle {
       HitboxFactory.coords(this.x + 9, this.y + 9),
       HitboxFactory.SquareDims(PADDLE.hitboxWidth, PADDLE.hitboxHeight)
     );
+    //Player to track the points 
+    this.player = player;
   }
 
   moveUp() {

@@ -34,26 +34,32 @@ class Ball {
       if (hit !== 0 && this.bounce) {
         switch (hit) {
           case 1:
-            this.speedX++;
+            this.speedX+=2;
             if (this.speedY > 4) this.speedY--;
             break;
           case 2:
-            this.speedY++;
+            this.speedY+=2;
             if (this.speedX > 4) this.speedX--;
             break;
         }
         this.speedX *= -1;
+        this.bounce = false;
         kickSound.play();
       }
     });
   }
 
   move() {
+    // =======================================
     if (
-      this.hb.x - this.hb.diameter / 2 <= 0 ||
-      this.hb.x >= BOARD.width - this.hb.diameter / 2
+      this.hb.x - this.hb.diameter / 2 < -50 ||
+      this.hb.x > BOARD.width + 50
     )
-      this.speedX *= -1;
+      {
+        this.x = BOARD.width/2;
+        this.hb.x = this.x + 34;
+      }
+    // =======================================
     if (
       this.hb.y - this.hb.diameter / 2 <= 0 ||
       this.hb.y >= BOARD.height - this.hb.diameter / 2
