@@ -1,5 +1,5 @@
 class Ball {
-  constructor(coords, players, kickSound) {
+  constructor(coords, players, points, kickSound, pointSound) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -13,14 +13,20 @@ class Ball {
     this.speedY = 5 * this.multiplierDirection();
     //Hitbox
     this.hb = new Hitbox(
-      HitboxFactory.coords(this.x + 34, this.y + 34),
-      HitboxFactory.CircleDims(BALL.hitboxSide)
+      HitboxFactory.coords(
+        this.x + BALL.hbComepnsation,
+        this.y + BALL.hbComepnsation
+      ),
+      HitboxFactory.circleDims(BALL.hitboxSide)
     );
     //Players
     this.players = players;
+    //Puntos
+    this.points = points;
     //Sonido
     this.kickSound = kickSound;
-
+    this.pointSound = pointSound;
+    //Auxiliares
     this.bounce = true;
   }
 
@@ -28,38 +34,40 @@ class Ball {
     return Math.round(Math.random()) ? 1 : -1;
   }
 
-  hitPlayer() {
+  hitCheck() {
     players.forEach((player) => {
       var hit = player.hb.squareWasHitCircle(ball.hb);
-      if (hit !== 0 && this.bounce) {
-        switch (hit) {
-          case 1:
-            this.speedX+=2;
-            if (this.speedY > 4) this.speedY--;
-            break;
-          case 2:
-            this.speedY+=2;
-            if (this.speedX > 4) this.speedX--;
-            break;
-        }
-        this.speedX *= -1;
-        this.bounce = false;
-        kickSound.play();
-      }
+      var scoreHit = player.pointsHB.squareWasHitCircle(ball.hb);
+      if (hit !== 0 && this.bounce) this.hitPlayer(hit);
+      if (scoreHit !== 0) this.hitScore(player);
     });
   }
 
+  hitPlayer(hit) {
+    var dirX = this.speedX > 0 ? 1 : -1;
+    var dirY = this.speedY > 0 ? 1 : -1;
+    switch (hit) {
+      case 1:
+        this.speedX += dirX;
+        if (Math.abs(this.speedY) > 3) this.speedY -= dirY;
+        break;
+      case 2:
+        this.speedY += dirY;
+        if (Math.abs(this.speedX) > 3) this.speedX -= dirX;
+        break;
+    }
+    this.speedX *= -1;
+    this.bounce = false;
+    this.kickSound.play();
+  }
+
+  hitScore(player) {
+    this.points.updatePlayerPoints(player.player);
+    this.pointSound.play();
+    this.reset();
+  }
+
   move() {
-    // =======================================
-    if (
-      this.hb.x - this.hb.diameter / 2 < -50 ||
-      this.hb.x > BOARD.width + 50
-    )
-      {
-        this.x = BOARD.width/2;
-        this.hb.x = this.x + 34;
-      }
-    // =======================================
     if (
       this.hb.y - this.hb.diameter / 2 <= 0 ||
       this.hb.y >= BOARD.height - this.hb.diameter / 2
@@ -73,9 +81,18 @@ class Ball {
     this.hb.y += this.speedY;
   }
 
+  reset() {
+    this.x = BOARD.width / 2 - BALL.side / 2;
+    this.y = BOARD.height / 2 - BALL.side / 2;
+    this.hb.x = this.x + BALL.hbComepnsation;
+    this.hb.y = this.y + BALL.hbComepnsation;
+    this.speedY = 0;
+    this.speedX = 0;
+  }
+
   draw() {
     image(this.img, this.x, this.y, this.width, this.height);
-    this.hitPlayer();
+    this.hitCheck();
     this.move();
     //this.hb.draw();
   }

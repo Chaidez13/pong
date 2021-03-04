@@ -15,10 +15,21 @@ class Paddle {
     //Hitbox
     this.hb = new Hitbox(
       HitboxFactory.coords(this.x + 9, this.y + 9),
-      HitboxFactory.SquareDims(PADDLE.hitboxWidth, PADDLE.hitboxHeight)
+      HitboxFactory.squareDims(PADDLE.hitboxWidth, PADDLE.hitboxHeight)
     );
-    //Player to track the points 
+    //Player to track the points
     this.player = player;
+
+    //Hitbox Score
+    this.pointsHB = new Hitbox(
+      HitboxFactory.coords(
+        this.player == PLAYERS_ID.player1
+          ? BOARD.width + BALL.side / 2
+          : -(BALL.side / 2),
+        0
+      ),
+      HitboxFactory.squareDims(10, BOARD.height)
+    );
   }
 
   moveUp() {

@@ -32,7 +32,6 @@ class Hitbox {
     var distY = hbc.y - testY;
     var distance = Math.sqrt(distX * distX + distY * distY);
 
-    //testY es donde colisiona la bola
     if (distance <= hbc.diameter / 2) {
       var hitPlace = this.y + this.height - testY;
       if (hitPlace < 22) return 1;
@@ -57,10 +56,10 @@ const HitboxFactory = {
   coords: (x, y) => {
     return { x, y };
   },
-  SquareDims: (width, height) => {
+  squareDims: (width, height) => {
     return { width, height };
   },
-  CircleDims: (diameter) => {
+  circleDims: (diameter) => {
     return { diameter };
   },
 };

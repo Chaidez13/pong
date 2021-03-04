@@ -13,9 +13,10 @@ const PADDLE = {
 const BALL = {
     side: 67,
     hitboxSide: 41,
+    hbComepnsation: 37,
 }
 
-const PLAYERS = {
+const PLAYERS_ID = {
     player1: 'p1',
     player2: 'p2',
 }
