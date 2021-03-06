@@ -11,6 +11,7 @@ class Ball {
     //Velocidades
     this.speedX = 5 * this.multiplierDirection();
     this.speedY = 5 * this.multiplierDirection();
+    this.canMove = 0;
     //Hitbox
     this.hb = new Hitbox(
       HitboxFactory.coords(
@@ -36,6 +37,8 @@ class Ball {
 
   hitCheck() {
     players.forEach((player) => {
+      if(player.hasMove) this.canMove = 1;
+
       var hit = player.hb.squareWasHitCircle(ball.hb);
       var scoreHit = player.pointsHB.squareWasHitCircle(ball.hb);
       if (hit !== 0 && this.bounce) this.hitPlayer(hit);
@@ -75,10 +78,10 @@ class Ball {
       this.speedY *= -1;
     if (this.x < BOARD.width / 2 + 10 && this.x > BOARD.width / 2 - 10)
       this.bounce = true;
-    this.x += this.speedX;
-    this.hb.x += this.speedX;
-    this.y += this.speedY;
-    this.hb.y += this.speedY;
+    this.x += this.speedX * this.canMove;
+    this.hb.x += this.speedX * this.canMove;
+    this.y += this.speedY * this.canMove;
+    this.hb.y += this.speedY * this.canMove;
   }
 
   reset() {
@@ -87,7 +90,13 @@ class Ball {
     this.hb.x = this.x + BALL.hbComepnsation;
     this.hb.y = this.y + BALL.hbComepnsation;
     this.speedY = 0;
-    this.speedX = 0;
+    this.speedX = (this.speedX>0)? 6 : -6;
+    this.canMove = 0;
+    this.players.forEach((player) => {
+      player.y = BOARD.height / 2 - PADDLE.height / 2;
+      player.hb.y = BOARD.height / 2 - PADDLE.height / 2;
+      player.hasMove = false;
+    });
   }
 
   draw() {

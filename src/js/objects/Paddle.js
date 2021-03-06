@@ -30,6 +30,8 @@ class Paddle {
       ),
       HitboxFactory.squareDims(10, BOARD.height)
     );
+
+    this.hasMove = false;
   }
 
   moveUp() {
@@ -49,6 +51,7 @@ class Paddle {
   move() {
     this.controllSettings.forEach((controll) => {
       if (keyIsDown(controll.key)) {
+        this.hasMove = true;
         this[controll.name]();
       }
     });
