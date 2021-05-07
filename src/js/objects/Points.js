@@ -11,8 +11,9 @@ class Points {
   }
 
   draw() {
-    fill("#FFFFFF");
-    textSize(35);
+    fill("#ea00ff")
+    stroke(0)
+    textSize(40);
     textAlign(CENTER);
     textFont(this.font);
     text(`${this.p1} - ${this.p2}`, this.x, this.y);

@@ -1,5 +1,5 @@
 class Paddle {
-  constructor(coords, controllSettings, player) {
+  constructor(coords, controllSettings, player, inst) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -32,6 +32,7 @@ class Paddle {
     );
 
     this.hasMove = false;
+    this.inst = inst;
   }
 
   moveUp() {
@@ -49,12 +50,14 @@ class Paddle {
   }
 
   move() {
-    this.controllSettings.forEach((controll) => {
-      if (keyIsDown(controll.key)) {
-        this.hasMove = true;
-        this[controll.name]();
-      }
-    });
+    if (this.inst.gameState !== 2) {
+      this.controllSettings.forEach((controll) => {
+        if (keyIsDown(controll.key)) {
+          this.hasMove = true;
+          this[controll.name]();
+        }
+      });
+    }
   }
 
   draw() {

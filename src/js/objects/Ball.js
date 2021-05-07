@@ -1,5 +1,5 @@
 class Ball {
-  constructor(coords, players, points, kickSound, pointSound) {
+  constructor(coords, players, points, kickSound, pointSound, wallSound, inst) {
     //Coordenadas
     this.x = coords.x;
     this.y = coords.y;
@@ -27,8 +27,10 @@ class Ball {
     //Sonido
     this.kickSound = kickSound;
     this.pointSound = pointSound;
+    this.wallSound = wallSound;
     //Auxiliares
     this.bounce = true;
+    this.inst = inst;
   }
 
   multiplierDirection() {
@@ -37,7 +39,10 @@ class Ball {
 
   hitCheck() {
     players.forEach((player) => {
-      if(player.hasMove) this.canMove = 1;
+      if (player.hasMove) {
+        if (this.inst.gameState === 0) this.inst.gameState = 1;
+        this.canMove = 1.2;
+      }
 
       var hit = player.hb.squareWasHitCircle(ball.hb);
       var scoreHit = player.pointsHB.squareWasHitCircle(ball.hb);
@@ -71,17 +76,21 @@ class Ball {
   }
 
   move() {
-    if (
-      this.hb.y - this.hb.diameter / 2 <= 0 ||
-      this.hb.y >= BOARD.height - this.hb.diameter / 2
-    )
-      this.speedY *= -1;
-    if (this.x < BOARD.width / 2 + 10 && this.x > BOARD.width / 2 - 10)
-      this.bounce = true;
-    this.x += this.speedX * this.canMove;
-    this.hb.x += this.speedX * this.canMove;
-    this.y += this.speedY * this.canMove;
-    this.hb.y += this.speedY * this.canMove;
+    if (this.inst.gameState !== 2) {
+      if (
+        this.hb.y - this.hb.diameter / 2 <= 0 ||
+        this.hb.y >= BOARD.height - this.hb.diameter / 2
+      ) {
+        this.wallSound.play();
+        this.speedY *= -1;
+      }
+      if (this.x < BOARD.width / 2 + 10 && this.x > BOARD.width / 2 - 10)
+        this.bounce = true;
+      this.x += this.speedX * this.canMove;
+      this.hb.x += this.speedX * this.canMove;
+      this.y += this.speedY * this.canMove;
+      this.hb.y += this.speedY * this.canMove;
+    }
   }
 
   reset() {
@@ -90,11 +99,12 @@ class Ball {
     this.hb.x = this.x + BALL.hbComepnsation;
     this.hb.y = this.y + BALL.hbComepnsation;
     this.speedY = 0;
-    this.speedX = (this.speedX>0)? 6 : -6;
+    this.speedX = this.speedX > 0 ? 6 : -6;
     this.canMove = 0;
+    this.inst.gameState = 0;
     this.players.forEach((player) => {
       player.y = BOARD.height / 2 - PADDLE.height / 2;
-      player.hb.y = BOARD.height / 2 - PADDLE.height / 2;
+      player.hb.y = BOARD.height / 2 - PADDLE.height / 2 + 9;
       player.hasMove = false;
     });
   }
