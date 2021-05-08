@@ -7,7 +7,7 @@ class Ball {
     this.width = BALL.side;
     this.height = BALL.side;
     //Imagen
-    this.img = loadImage("/src/assets/sprites/ball.png");
+    this.img = loadImage("src/assets/sprites/ball.png");
     //Velocidades
     this.speedX = 5 * this.multiplierDirection();
     this.speedY = 5 * this.multiplierDirection();
