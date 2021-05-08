@@ -15,15 +15,15 @@ let kenvectorFont;
 
 function preload() {
   soundFormats("wav");
-  bgSound = loadSound("/src/assets/sounds/background.mp3");
-  kickSound = loadSound("/src/assets/sounds/kick");
-  pointSound = loadSound("/src/assets/sounds/point");
-  wallSound = loadSound("/src/assets/sounds/wall");
-  kenvectorFont = loadFont("/src/assets/fonts/kenvector_future_thin.ttf");
+  bgSound = loadSound("src/assets/sounds/background.mp3");
+  kickSound = loadSound("src/assets/sounds/kick");
+  pointSound = loadSound("src/assets/sounds/point");
+  wallSound = loadSound("src/assets/sounds/wall");
+  kenvectorFont = loadFont("src/assets/fonts/kenvector_future_thin.ttf");
 }
 
 function setup() {
-  bg = loadImage("/src/assets/sprites/background.png");
+  bg = loadImage("src/assets/sprites/background.png");
   //Inicialización de los objetos
   inst = new Instructions(
     InstructionsFactory.coords(BOARD.width / 2 + 2, BOARD.height - 50)
